@@ -5,3 +5,6 @@
 .vscode/ipch
 lib/BitBang_I2C-master
 lib/OneBitDisplay-master
+
+# auto-generated
+*.ino.cpp

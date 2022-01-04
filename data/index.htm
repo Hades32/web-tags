@@ -12,23 +12,33 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 300;
         }
-        h2, h3, h4, h5, b {
+
+        h2,
+        h3,
+        h4,
+        h5,
+        b {
             font-weight: 700;
         }
+
         h1 {
             font-weight: 900;
         }
+
         button {
             font-weight: 400;
         }
+
         label {
             font-weight: 500;
         }
+
         section {
             margin: 1.5em;
             border: 1px solid black;
             padding: 1em;
         }
+
         section>h2 {
             background-color: white;
             margin-top: -1.5em;
@@ -82,7 +92,7 @@
         <br>
         <label for="file1">Filename:</label>
         <input type="text" id="file1" name="file1" value="image.bmp">
-        <label for="file1">Filename color 2:</label>
+        <label for="file2">Filename color 2:</label>
         <input type="text" id="file2" name="file2" value="">
         <button
             onclick='send("set_bmp_file?id="+document.getElementById("disp_id1").value+"&file="+document.getElementById("file1").value+"&file1="+document.getElementById("file2").value)'>Send
@@ -90,21 +100,16 @@
         <button
             onclick='send("set_bmp_file?id="+document.getElementById("disp_id1").value+"&file="+document.getElementById("file1").value+"&file1="+document.getElementById("file2").value+"&save_comp_file=1")'>Send
             .bmp and save compressed one on spiffs</button>
-        <br>
-<button onclick='send_post("set_custom?id="+document.getElementById("disp_id1").value+"&type="+document.getElementById("disp_type").value,document.getElementById("multiline").value)'>Send Text</button>
-   <label for="disp_type">Display Type:</label>
-   <select id="disp_type" name="disp_type">
-    <option value="0">50c</option>
-    <option value="1">900RB</option>
-    <option value="2">Chroma29</option>
-    <option value="3">Chroma74</option>
-  </select>
-  <br>
-<textarea id="multiline" name="multiline" rows="8" cols="32" wrap="hard">
-Enter text here. Each display type uses a font which fits about 18 characters per line.
-</textarea>
 
-<br>
+        <br>
+        <label for="file_url">Image File URL:</label>
+        <input type="text" id="file_url" name="file_url" value="">
+        <button
+            onclick='send("set_url?id="+document.getElementById("disp_id1").value+"&url="+document.getElementById("file_url").value)'>
+            Show file from URL
+        </button>
+        <br>
+
     </section>
 
 
@@ -171,24 +176,24 @@ Enter text here. Each display type uses a font which fits about 18 characters pe
                 answerDiv.innerHTML = "ERROR: " + err
             }
         }
-        
-        async function send_post(url,data_text) {
+
+        async function send_post(url, data_text) {
             try {
-        
-        var data = new FormData();
-        data.append('text', data_text);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-        xhr.onload = function () {
-          answerDiv.innerHTML = this.responseText;
-          console.log(this.responseText);
-        };
-        xhr.send(data);
+
+                var data = new FormData();
+                data.append('text', data_text);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.onload = function () {
+                    answerDiv.innerHTML = this.responseText;
+                    console.log(this.responseText);
+                };
+                xhr.send(data);
             } catch (err) {
                 answerDiv.innerHTML = "ERROR: " + err
             }
         }
-        
+
 
         async function get(url) {
             try {
