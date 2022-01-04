@@ -89,6 +89,8 @@
         <button
             onclick='send("set_file?id="+document.getElementById("disp_id1").value+"&file="+document.getElementById("file").value)'>Send
             file from spiffs</button>
+        
+        <br>
         <br>
         <label for="file1">Filename:</label>
         <input type="text" id="file1" name="file1" value="image.bmp">
@@ -102,10 +104,13 @@
             .bmp and save compressed one on spiffs</button>
 
         <br>
-        <label for="file_url">Image File URL:</label>
+        <br>
+        <label for="file_url">BW Image File URL:</label>
         <input type="text" id="file_url" name="file_url" value="">
+        <label for="color_file_url">Color Image File URL:</label>
+        <input type="text" id="color_file_url" name="color_file_url" value="">
         <button
-            onclick='send("set_url?id="+document.getElementById("disp_id1").value+"&url="+document.getElementById("file_url").value)'>
+            onclick='send("set_url?id="+document.getElementById("disp_id1").value+"&url="+document.getElementById("file_url").value+"&url_color="+document.getElementById("color_file_url").value)'>
             Show file from URL
         </button>
         <br>

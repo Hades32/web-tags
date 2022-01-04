@@ -160,7 +160,7 @@ void init_web()
     Serial.printf("Loading %s for display %d\n", url.c_str(), (int)id);
     
     String bwFileName = "/tmp-dl.bmp";
-    String colorFileName = ""; //disabled for now
+    String colorFileName = ""; //disabled
     http.begin(url);
     int httpCode = http.GET();
     if (httpCode <= 0) {
@@ -187,6 +187,42 @@ void init_web()
     http.writeToStream(&bwFile);
     bwFile.close();
     http.end();
+
+    
+    if (request->hasParam("url_color"))
+    {
+      String colorUrl = request->getParam("url_color")->value();
+      if (!colorUrl.isEmpty()) {
+        colorFileName = "/tmp-dl-col.bmp";
+        Serial.printf("Loading color %s for display %d\n", colorUrl.c_str(), (int)id);
+        http.begin(colorUrl);
+        int httpCode = http.GET();
+        if (httpCode <= 0) {
+          http.end();
+          Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+          request->send(500, "text/plain", "HTTP request failed");
+          return;
+        }
+        if (httpCode != HTTP_CODE_OK) {
+          http.end();
+          Serial.printf("[HTTP] GET... wrong code: %d\n", httpCode);
+          request->send(500, "text/plain", "Wrong HTTP code");
+          return;
+        }
+
+        File colFile = SPIFFS.open(colorFileName, "w");
+        if (!colFile) {
+          http.end();
+          Serial.printf("[HTTP] GET... file missing!\n");
+          request->send(500, "text/plain", "FS bug");
+          return;
+        }
+
+        http.writeToStream(&colFile);
+        colFile.close();
+        http.end();
+      }
+    }
     
     int iCompressedLen = load_img_to_bufer(bwFileName, colorFileName, false);
 
